@@ -5,10 +5,11 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
+import { AuthModule } from './auth/auth.module';
 import { environment } from './../environments/environment';
 
 const routes: Routes = [
-  // { path: '', redirectTo: '/user-login', pathMatch: 'full' }
+  { path: '', redirectTo: '/user-login', pathMatch: 'full' }
 ];
 
 @NgModule({
@@ -18,6 +19,7 @@ const routes: Routes = [
   imports: [
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
+    AuthModule,
     BrowserModule,
     RouterModule.forRoot(routes)
   ],
