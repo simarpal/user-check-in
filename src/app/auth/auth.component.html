@@ -1,16 +1,32 @@
 <div class="login-container">
-  <h5>Register New User</h5>
-  <form [formGroup]="registerForm">
-    <div class="form-group">
-      <label>Email address</label>
-      <input type="email" formControlName="email" class="form-control">
-    </div>
-    <div class="form-group">
-      <label>Password</label>
-      <input type="password" class="form-control" formControlName="password">
-      <label class="error">{{errorMessage}}</label>
-      <label class="success">{{successMessage}}</label>
-    </div>
-    <button type="submit" (click)="registerUser(registerForm.value)" class="btn btn-default">Register</button>
-  </form>
+  <div *ngIf="afAuth.user | async as user; else showLogin" class="clearfix">
+    <h5 class="fl">Hello {{ user.displayName ? user.displayName : user.email }}!</h5>
+    <button class="btn btn-default fr" (click)="logout()">Logout</button>
+  </div>
+  <ng-template #showLogin>
+    <!-- <button *ngIf="login" (click)="loginWithGoogle()">Login with Google</button> -->
+    <button *ngIf="login" type="button" class="btn btn-block" (click)="loginWithGoogle()">
+      <i class="fa fa-google" aria-hidden="true"></i>
+      Login with Google
+    </button>
+    <span *ngIf="login" class="hr">
+      <span>OR</span>
+    </span>
+    <h5>{{ login ? 'Login with registered email' : 'Register New User' }}</h5>
+    <form [formGroup]="registerForm">
+      <div class="form-group">
+        <label>Email address</label>
+        <input type="email" formControlName="email" class="form-control">
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" class="form-control" formControlName="password">
+        <label class="error">{{errorMessage}}</label>
+        <label class="success">{{successMessage}}</label>
+      </div>
+      <button type="submit" class="btn btn-default" (click)="onFormSubmit(registerForm.value)">{{ login ? 'Login' : 'Register' }}</button>
+      <br>
+      <button class="btn btn-link" (click)="toggleLoginMode()">{{ login ? 'No account yet? Register Instantly' : 'Already have an account? Sign In' }}</button>
+    </form>
+  </ng-template>
 </div>

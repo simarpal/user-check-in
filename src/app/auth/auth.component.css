@@ -11,3 +11,17 @@
   color: red;
   font-size: 12px;
 }
+
+.hr {
+  border-bottom: 1px dotted #ccc;
+  margin: 25px 0px;
+  height: 10px;
+  display: block;
+  font-weight: 300;
+  text-align: center;
+}
+
+.hr>span {
+  background: #FEF7F7;
+  padding: 0 15px;
+}
