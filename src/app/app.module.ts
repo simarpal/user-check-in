@@ -9,7 +9,7 @@ import { AuthModule } from './auth/auth.module';
 import { environment } from './../environments/environment';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/user-login', pathMatch: 'full' }
+  { path: '', redirectTo: '/login', pathMatch: 'full' }
 ];
 
 @NgModule({
