@@ -8,7 +8,7 @@ import { AuthComponent } from './auth.component';
 import { AuthService } from './auth.service';
 
 const routes: Routes = [
-  { path: 'login', component: AuthComponent },
+  { path: 'login', component: AuthComponent }
 ];
 
 @NgModule({
@@ -17,7 +17,7 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterModule.forChild(routes),
+    RouterModule.forChild(routes)
   ],
   declarations: [AuthComponent],
   providers: [AuthService]

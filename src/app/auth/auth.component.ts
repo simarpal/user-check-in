@@ -5,6 +5,8 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { AuthService } from './auth.service';
+import { AppSessionService } from './../app-session.service';
+import { User } from './../types/user';
 
 @Component({
   selector: 'app-auth',
@@ -20,7 +22,8 @@ export class AuthComponent implements OnInit {
   constructor(public afAuth: AngularFireAuth,
     private authService: AuthService,
     private fb: FormBuilder,
-    private router: Router) { }
+    private router: Router,
+    private appSessionService: AppSessionService) { }
 
   ngOnInit() {
     this.buildForm();
@@ -55,8 +58,8 @@ export class AuthComponent implements OnInit {
   loginWithEmail(formValue) {
     this.authService.loginWithEmail(formValue)
       .then(res => {
-        this.errorMessage = "";
-        this.successMessage = "Welcome to Firestarter!!!";
+        this.appSessionService.user = new User({ email : formValue.email });
+        this.router.navigate(['/check-in']);
       }, err => {
         this.errorMessage = err.message;
         this.successMessage = "";
@@ -64,11 +67,10 @@ export class AuthComponent implements OnInit {
   }
 
   loginWithGoogle() {
-    this.afAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
-  }
-
-  logout() {
-    this.afAuth.auth.signOut();
+    this.afAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).then(res => {
+      this.appSessionService.user = new User({ email: res.additionalUserInfo.profile.email });
+      this.router.navigate(['/check-in']);
+    });
   }
 
   toggleLoginMode() {
