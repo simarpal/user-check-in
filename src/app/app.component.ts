@@ -13,11 +13,7 @@ export class AppComponent implements OnInit {
     private router: Router) {
   }
   
-  async ngOnInit() {
-    let loginUser = await this.afAuth.user;
-    if (loginUser) {
-      this.router.navigate(['/check-in']);
-    }
+  ngOnInit() {
   }
 
   logout() {

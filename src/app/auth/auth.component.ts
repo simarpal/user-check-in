@@ -26,7 +26,13 @@ export class AuthComponent implements OnInit {
     private appSessionService: AppSessionService) { }
 
   ngOnInit() {
-    this.buildForm();
+    this.buildForm();        
+    this.afAuth.user.subscribe(user => {
+      if (user && user.email) {  
+        this.router.navigate(['/check-in']);
+      }
+    });
+    
   }
 
   buildForm() {
