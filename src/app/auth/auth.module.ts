@@ -1,4 +1,3 @@
-import { AngularFireAuthModule } from 'angularfire2/auth';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
@@ -13,7 +12,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [
-    AngularFireAuthModule,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
