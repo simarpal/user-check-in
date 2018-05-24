@@ -6,6 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { AuthModule } from './auth/auth.module';
+import { CheckInModule } from './check-in/check-in.module';
 import { environment } from './../environments/environment';
 
 const routes: Routes = [
@@ -21,6 +22,7 @@ const routes: Routes = [
     AngularFirestoreModule,
     AuthModule,
     BrowserModule,
+    CheckInModule,
     RouterModule.forRoot(routes)
   ],
   providers: [],
