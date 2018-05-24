@@ -1,5 +1,5 @@
+import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFireModule } from 'angularfire2';
-import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { AuthModule } from './auth/auth.module';
 import { CheckInModule } from './check-in/check-in.module';
 import { environment } from './../environments/environment';
+import { AppSessionService } from './app-session.service';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' }
@@ -18,14 +19,14 @@ const routes: Routes = [
     AppComponent
   ],
   imports: [
+    AngularFireAuthModule,
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule,
     AuthModule,
     BrowserModule,
     CheckInModule,
     RouterModule.forRoot(routes)
   ],
-  providers: [],
+  providers: [AppSessionService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
