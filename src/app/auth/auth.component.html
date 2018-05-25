@@ -1,11 +1,19 @@
 <div class="login-container">
-  <button *ngIf="login" type="button" class="btn btn-block google-btn" (click)="loginWithGoogle()">
+  <!-- <button *ngIf="login" type="button" class="btn btn-block cursor-hand" (click)="loginWithGoogle()">
     <i class="fa fa-google" aria-hidden="true"></i>
     Login with Google
-  </button>
-  <span *ngIf="login" class="hr">
-    <span>OR</span>
-  </span>
+  </button> -->
+  <div *ngIf="login" class="google-btn-container">
+    <div class="google-custom-btn clearfix" (click)="loginWithGoogle()" tabIndex="2">
+      <div class="fl">
+        <img src="assets/btn_google_light_normal_ios.svg">
+      </div>
+      <div class="text">Sign in with Google</div>
+    </div>
+    <span class="hr">
+      <span>OR</span>
+    </span>
+  </div>  
   <h5>{{ login ? 'Login with registered email' : 'Register new user' }}</h5>
   <form [formGroup]="registerForm">
     <div class="form-group">
@@ -18,8 +26,8 @@
       <label class="error">{{errorMessage}}</label>
       <label class="success">{{successMessage}}</label>
     </div>
-    <button type="submit" class="btn btn-default" (click)="onFormSubmit(registerForm.value)">{{ login ? 'Login' : 'Register' }}</button>
+    <button type="submit" class="btn btn-primary cursor-hand" (click)="onFormSubmit(registerForm.value)">{{ login ? 'Login' : 'Register' }}</button>
     <br>
-    <button class="btn btn-link" (click)="toggleLoginMode()">{{ login ? 'No account yet? Register Instantly' : 'Already have an account? Sign In' }}</button>
+    <button class="btn btn-link cursor-hand" (click)="toggleLoginMode()">{{ login ? 'No account yet? Register Instantly' : 'Already have an account? Sign In' }}</button>
   </form>
 </div>

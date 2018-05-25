@@ -1,6 +1,12 @@
-/*.login-container{
- margin: 20px;
-}*/
+.login-container{
+  max-width: 400px;
+  text-align: center;
+  padding: 30px 20px;
+  margin: 20px auto;
+  background-color: aliceblue;
+  border-radius: 5px;
+  border: solid 1px lavender;
+}
 
 .success{
   color: #5cb85c;
@@ -26,6 +32,32 @@
   padding: 0 15px;
 }
 
-.google-btn{
+.google-custom-btn{
   cursor: pointer;
+  width: 292px;
+  height: 40px;
+  background-color: #4285F4;
+  margin: 10px auto;
+  border-radius: 2px;
+}
+
+.google-custom-btn img{
+  height: 44px;
+  width: 44px;
+  margin-top: -2px;
+  margin-left: -2px;
+}
+
+.google-custom-btn .text{
+  font-family: 'Roboto', sans-serif;
+  color: white;
+  font-weight: bold;
+  padding-left: 48px;
+  padding-top: 8px;
+  font-size: 16px;
+  float:left;
+}
+
+.form-group{
+  text-align: left;
 }
