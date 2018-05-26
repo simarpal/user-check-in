@@ -1,5 +1,5 @@
 <div class="main-container">
-  <div *ngIf="afAuth.user | async as user" class="user-detail clearfix">
+  <div *ngIf="afAuth.auth.currentUser as user" class="user-detail clearfix">
     <h5 class="fl">Hello {{ user.displayName ? user.displayName : user.email }}!</h5>
     <button class="btn btn-primary fr cursor-hand" (click)="logout()">Logout</button>
   </div>

@@ -1,87 +1,184 @@
-<div class="healthy-checklist-container">
-  <h5>Please Tick Today's Activities</h5>
-  <div class="row">
-    <div class="col-lg-5">
-      <div class="form-group">
-        <label class="custom-control custom-checkbox">
-          <input type="checkbox" class="custom-control-input" [(ngModel)]="healthyChecklist.yoga">
-          <span class="custom-control-indicator"></span>
-          <span class="custom-control-description">Yoga done</span>
-        </label>
+<ngb-tabset>
+  <ngb-tab title="Today's Activities">
+    <ng-template ngbTabContent>
+      <h6>Please Tick Today's Activities</h6>
+      <div class="row">
+        <div class="col-lg-5">
+          <div class="form-group">
+            <label class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input" [(ngModel)]="healthyChecklist.yoga">
+              <span class="custom-control-indicator"></span>
+              <span class="custom-control-description">Yoga done</span>
+            </label>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
 
-  <div class="row">
-    <div class="col-lg-5">
-      <div class="form-group">
-        <label class="custom-control custom-checkbox">
-          <input type="checkbox" class="custom-control-input" [(ngModel)]="healthyChecklist.morningWalk">
-          <span class="custom-control-indicator"></span>
-          <span class="custom-control-description">Morning walk</span>
-        </label>
+      <div class="row">
+        <div class="col-lg-5">
+          <div class="form-group">
+            <label class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input" [(ngModel)]="healthyChecklist.morningWalk">
+              <span class="custom-control-indicator"></span>
+              <span class="custom-control-description">Morning walk</span>
+            </label>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
 
-  <div class="row">
-    <div class="col-lg-5">
-      <div class="form-group">
-        <label class="custom-control custom-checkbox">
-          <input type="checkbox" class="custom-control-input" [(ngModel)]="healthyChecklist.gym">
-          <span class="custom-control-indicator"></span>
-          <span class="custom-control-description">GYM</span>
-        </label>
+      <div class="row">
+        <div class="col-lg-5">
+          <div class="form-group">
+            <label class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input" [(ngModel)]="healthyChecklist.gym">
+              <span class="custom-control-indicator"></span>
+              <span class="custom-control-description">GYM</span>
+            </label>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
 
-  <div class="row">
-    <div class="col-lg-5">
-      <div class="form-group">
-        <label class="custom-control custom-checkbox">
-          <input type="checkbox" class="custom-control-input" [(ngModel)]="healthyChecklist.eatGreenFood">
-          <span class="custom-control-indicator"></span>
-          <span class="custom-control-description">Eat one green food</span>
-        </label>
+      <div class="row">
+        <div class="col-lg-5">
+          <div class="form-group">
+            <label class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input" [(ngModel)]="healthyChecklist.eatGreenFood">
+              <span class="custom-control-indicator"></span>
+              <span class="custom-control-description">Eat one green food</span>
+            </label>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
 
-  <div class="row">
-    <div class="col-lg-5">
-      <div class="form-group">
-        <label class="custom-control custom-checkbox">
-          <input type="checkbox" class="custom-control-input" [(ngModel)]="healthyChecklist.drinkWater">
-          <span class="custom-control-indicator"></span>
-          <span class="custom-control-description">Drink plenty of water</span>
-        </label>
+      <div class="row">
+        <div class="col-lg-5">
+          <div class="form-group">
+            <label class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input" [(ngModel)]="healthyChecklist.drinkWater">
+              <span class="custom-control-indicator"></span>
+              <span class="custom-control-description">Drink plenty of water</span>
+            </label>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
 
-  <div class="row">
-    <div class="col-lg-5">
-      <div class="form-group">
-        <label class="custom-control custom-checkbox">
-          <input type="checkbox" class="custom-control-input" [(ngModel)]="healthyChecklist.ditchSugaryFood">
-          <span class="custom-control-indicator"></span>
-          <span class="custom-control-description">Ditch sugar containing food</span>
-        </label>
+      <div class="row">
+        <div class="col-lg-5">
+          <div class="form-group">
+            <label class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input" [(ngModel)]="healthyChecklist.ditchSugaryFood">
+              <span class="custom-control-indicator"></span>
+              <span class="custom-control-description">Ditch sugar containing food</span>
+            </label>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
 
-  <div class="row">
-    <div class="col-lg-5">
-      <div class="form-group">
-        <label class="custom-control custom-checkbox">
-          <input type="checkbox" class="custom-control-input" [(ngModel)]="healthyChecklist.healthySleep">
-          <span class="custom-control-indicator"></span>
-          <span class="custom-control-description">Sleep for 7-8 hour</span>
-        </label>
+      <div class="row">
+        <div class="col-lg-5">
+          <div class="form-group">
+            <label class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input" [(ngModel)]="healthyChecklist.healthySleep">
+              <span class="custom-control-indicator"></span>
+              <span class="custom-control-description">Sleep for 7-8 hour</span>
+            </label>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-  <button type="submit" class="btn btn-primary pull-right cursor-hand" (click)="onSubmit()">Submit</button>
-</div>
+      
+      <div class="row">
+        <div class="col-lg-5 clearfix">
+          <button type="submit" class="btn btn-primary fr cursor-hand" (click)="onSubmit()">Submit</button>
+        </div>
+      </div>
+    </ng-template>
+  </ngb-tab>
+  <ngb-tab title="Yesterday's Activities">
+    <ng-template ngbTabContent>
+      <h6>Yours yesterday's Activities</h6>
+      <div class="row">
+        <div class="col-lg-5">
+          <div class="form-group">
+            <label class="custom-control custom-checkbox">
+              <input disabled="true" type="checkbox" class="custom-control-input" [checked]="yesterdayHealthyChecklist.yoga">
+              <span class="custom-control-indicator"></span>
+              <span class="custom-control-description">Yoga done</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-5">
+          <div class="form-group">
+            <label class="custom-control custom-checkbox">
+              <input disabled="true" type="checkbox" class="custom-control-input" [checked]="yesterdayHealthyChecklist.morningWalk">
+              <span class="custom-control-indicator"></span>
+              <span class="custom-control-description">Morning walk</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-5">
+          <div class="form-group">
+            <label class="custom-control custom-checkbox">
+              <input disabled="true" type="checkbox" class="custom-control-input" [checked]="yesterdayHealthyChecklist.gym">
+              <span class="custom-control-indicator"></span>
+              <span class="custom-control-description">GYM</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-5">
+          <div class="form-group">
+            <label class="custom-control custom-checkbox">
+              <input disabled="true" type="checkbox" class="custom-control-input" [checked]="yesterdayHealthyChecklist.eatGreenFood">
+              <span class="custom-control-indicator"></span>
+              <span class="custom-control-description">Eat one green food</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-5">
+          <div class="form-group">
+            <label class="custom-control custom-checkbox">
+              <input disabled="true" type="checkbox" class="custom-control-input" [checked]="yesterdayHealthyChecklist.drinkWater">
+              <span class="custom-control-indicator"></span>
+              <span class="custom-control-description">Drink plenty of water</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-5">
+          <div class="form-group">
+            <label class="custom-control custom-checkbox">
+              <input disabled="true" type="checkbox" class="custom-control-input" [checked]="yesterdayHealthyChecklist.ditchSugaryFood">
+              <span class="custom-control-indicator"></span>
+              <span class="custom-control-description">Ditch sugar containing food</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-5">
+          <div class="form-group">
+            <label class="custom-control custom-checkbox">
+              <input disabled="true" type="checkbox" class="custom-control-input" [checked]="yesterdayHealthyChecklist.healthySleep">
+              <span class="custom-control-indicator"></span>
+              <span class="custom-control-description">Sleep for 7-8 hour</span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </ngb-tab>
+</ngb-tabset>

@@ -5,8 +5,6 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { AuthService } from './auth.service';
-import { AppSessionService } from './../app-session.service';
-import { User } from './../types/user';
 
 @Component({
   selector: 'app-auth',
@@ -22,17 +20,15 @@ export class AuthComponent implements OnInit {
   constructor(public afAuth: AngularFireAuth,
     private authService: AuthService,
     private fb: FormBuilder,
-    private router: Router,
-    private appSessionService: AppSessionService) { }
+    private router: Router) { }
 
   ngOnInit() {
-    this.buildForm();        
-    this.afAuth.user.subscribe(user => {
-      if (user && user.email) {  
+    this.buildForm();
+    setTimeout(() =>{
+      if(this.afAuth.auth.currentUser) {
         this.router.navigate(['/check-in']);
       }
-    });
-    
+    }, 2000);      
   }
 
   buildForm() {
@@ -64,7 +60,6 @@ export class AuthComponent implements OnInit {
   loginWithEmail(formValue) {
     this.authService.loginWithEmail(formValue)
       .then(res => {
-        this.appSessionService.user = new User({ email : formValue.email });
         this.router.navigate(['/check-in']);
       }, err => {
         this.errorMessage = err.message;
@@ -74,7 +69,6 @@ export class AuthComponent implements OnInit {
 
   loginWithGoogle() {
     this.afAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).then(res => {
-      this.appSessionService.user = new User({ email: res.additionalUserInfo.profile.email });
       this.router.navigate(['/check-in']);
     });
   }

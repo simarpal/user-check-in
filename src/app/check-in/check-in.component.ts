@@ -1,50 +1,52 @@
-import { User } from './../types/user';
-import { Component, OnInit } from '@angular/core';
-import { AngularFireDatabase } from 'angularfire2/database';
+import { AngularFireAuth } from 'angularfire2/auth';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
-import { AppSessionService } from './../app-session.service';
 import { CheckInService } from './check-in.service';
 import { HealthyChecklist } from './../types/healthyChecklist';
 
 @Component({
   selector: 'app-check-in',
   templateUrl: './check-in.component.html',
-  styleUrls: ['./check-in.component.css']
+  styleUrls: ['./check-in.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class CheckInComponent implements OnInit {
   healthyChecklist: HealthyChecklist = new HealthyChecklist();
-  
-  constructor(private afDb: AngularFireDatabase,
-    private appSessionService: AppSessionService,
+  yesterdayHealthyChecklist: HealthyChecklist = new HealthyChecklist();
+  todayDate: string = new Date().toDateString();
+
+  constructor(public afAuth: AngularFireAuth,
     private checkInService: CheckInService) {
-   }
+  }
 
   ngOnInit() {
-    // this.appSessionService.getUserDetail(this.appSessionService.user.email).snapshotChanges().subscribe(res =>{
-    //   console.log(res);
-    // });
-    if (this.appSessionService.user && this.appSessionService.user.key) {
-      this.checkInService.getUserHealthyChecklist(this.appSessionService.user.key).subscribe(response => {
-        this.healthyChecklist.yoga = response['yoga'];
-        this.healthyChecklist.morningWalk = response['morningWalk'];
-        this.healthyChecklist.gym = response['gym'];
-        this.healthyChecklist.eatGreenFood = response['eatGreenFood'];
-        this.healthyChecklist.drinkWater = response['drinkWater'];
-        this.healthyChecklist.ditchSugaryFood = response['ditchSugaryFood'];
-        this.healthyChecklist.healthySleep = response['healthySleep'];
-        console.log(this.healthyChecklist);
-      });
-    }    
+    setTimeout(() => {
+      if (this.afAuth.auth.currentUser) {
+        let now = new Date();
+        now.setDate(now.getDate() - 1);
+        let yesterdayDate: string = now.toDateString();
+        this.getUserHealthyChecklist(this.afAuth.auth.currentUser.email, this.todayDate);
+        this.getUserHealthyChecklist(this.afAuth.auth.currentUser.email, yesterdayDate);
+      }
+    }, 2000);
   }
 
   onSubmit() {
-    if (this.appSessionService.user && this.appSessionService.user.key) {
-      this.checkInService.updateHealthyChecklist(this.appSessionService.user.key, this.healthyChecklist)
-    } else {
-      let keySaved = this.checkInService.insertHealthyChecklist(this.healthyChecklist).key;
-      this.appSessionService.user.key = keySaved;      
-      this.appSessionService.insertUser(this.appSessionService.user);
-    }    
+    this.healthyChecklist.created = this.todayDate;
+    this.healthyChecklist.email = this.afAuth.auth.currentUser.email;
+    this.checkInService.insertHealthyChecklist(this.healthyChecklist);
+  }
+
+  getUserHealthyChecklist(email: string, date: string) {
+    this.checkInService.getUserHealthyChecklist(email, date).subscribe(response => {
+      if (response.length > 0) {
+        if (date == this.todayDate) {
+          this.healthyChecklist = response[0];
+        } else {
+          this.yesterdayHealthyChecklist = response[0];
+        }
+      }      
+    });
   }
 
 }

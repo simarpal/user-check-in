@@ -6,4 +6,6 @@ export class HealthyChecklist {
   drinkWater: boolean = false;
   ditchSugaryFood: boolean = false;
   healthySleep: boolean = false;
+  created: string;
+  email: string;
 }

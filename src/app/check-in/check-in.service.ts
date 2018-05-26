@@ -1,22 +1,23 @@
-import { AngularFireDatabase } from 'angularfire2/database';
+import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { Injectable } from '@angular/core';
 
 import { HealthyChecklist } from './../types/healthyChecklist';
 
 @Injectable()
 export class CheckInService {
+  private itemsCollection: AngularFirestoreCollection<HealthyChecklist>;
 
-  constructor(private afDb: AngularFireDatabase) { }
+  constructor(private afs: AngularFirestore) {
+    this.itemsCollection = afs.collection<HealthyChecklist>('healthyChecklist');
+   }
 
-  getUserHealthyChecklist(key: string) {
-    return this.afDb.object('healthyChecklist/' + key).valueChanges();
+  getUserHealthyChecklist(email: string, date: string) {
+    return this.afs.collection<HealthyChecklist>('healthyChecklist', ref => ref.where('email', '==', email)
+      .where('created', '==', date))
+      .valueChanges();
   }
 
   insertHealthyChecklist(healthyChecklist: HealthyChecklist) {
-    return this.afDb.list('/healthyChecklist').push(healthyChecklist);
-  }
-
-  updateHealthyChecklist(key: string, healthyChecklist: HealthyChecklist) {
-    return this.afDb.list('/healthyChecklist').update(key, healthyChecklist);
+    return this.itemsCollection.add(JSON.parse(JSON.stringify(healthyChecklist)));
   }
 }
