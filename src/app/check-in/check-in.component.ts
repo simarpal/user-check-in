@@ -20,15 +20,13 @@ export class CheckInComponent implements OnInit {
   }
 
   ngOnInit() {
-    setTimeout(() => {
-      if (this.afAuth.auth.currentUser) {
-        let now = new Date();
-        now.setDate(now.getDate() - 1);
-        let yesterdayDate: string = now.toDateString();
-        this.getUserHealthyChecklist(this.afAuth.auth.currentUser.email, this.todayDate);
-        this.getUserHealthyChecklist(this.afAuth.auth.currentUser.email, yesterdayDate);
-      }
-    }, 2000);
+    this.afAuth.user.subscribe(user => {
+      let now = new Date();
+      now.setDate(now.getDate() - 1);
+      let yesterdayDate: string = now.toDateString();
+      this.getUserHealthyChecklist(this.afAuth.auth.currentUser.email, this.todayDate);
+      this.getUserHealthyChecklist(this.afAuth.auth.currentUser.email, yesterdayDate);
+    });
   }
 
   onSubmit() {

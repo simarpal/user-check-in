@@ -24,11 +24,11 @@ export class AuthComponent implements OnInit {
 
   ngOnInit() {
     this.buildForm();
-    setTimeout(() =>{
-      if(this.afAuth.auth.currentUser) {
+    this.afAuth.user.subscribe(user => {
+      if (user && user.email) {
         this.router.navigate(['/check-in']);
       }
-    }, 2000);      
+    });
   }
 
   buildForm() {
