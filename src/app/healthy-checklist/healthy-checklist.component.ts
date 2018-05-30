@@ -8,9 +8,9 @@ import { HealthyChecklist } from './../types/healthyChecklist';
   styleUrls: ['./healthy-checklist.component.css']
 })
 export class HealthyChecklistComponent implements OnInit {
-  @Input() healthyChecklist: HealthyChecklist = new HealthyChecklist();
+  @Input() healthyChecklist: HealthyChecklist;
   @Input() isDisabled: boolean = false;
-  
+
   constructor() { }
 
   ngOnInit() {

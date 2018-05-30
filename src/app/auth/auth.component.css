@@ -8,16 +8,6 @@
   border: solid 1px lavender;
 }
 
-.success{
-  color: #5cb85c;
-  font-size: 12px;
-}
-
-.error{
-  color: red;
-  font-size: 12px;
-}
-
 .form-group{
   text-align: left;
 }

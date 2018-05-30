@@ -5,3 +5,13 @@
 .cursor-hand{
   cursor: pointer;
 }
+
+.success{
+  color: #5cb85c;
+  font-size: 12px;
+}
+
+.error{
+  color: red;
+  font-size: 12px;
+}

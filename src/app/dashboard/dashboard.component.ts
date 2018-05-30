@@ -1,5 +1,6 @@
 import { AngularFireAuth } from 'angularfire2/auth';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 
 import { DashboardService } from './dashboard.service';
@@ -12,10 +13,12 @@ import { HealthyChecklist } from './../types/healthyChecklist';
   encapsulation: ViewEncapsulation.None
 })
 export class DashboardComponent implements OnInit {
-  healthyChecklist: HealthyChecklist = new HealthyChecklist();
-  yesterdayHealthyChecklist: HealthyChecklist = new HealthyChecklist();
+  olderHealthyChecklist: HealthyChecklist;
+  todayHealthyChecklist: HealthyChecklist = new HealthyChecklist();  
   todayDate: string = new Date().toDateString();
+  yesterdayDate: NgbDateStruct;
   id: string = '';
+  noRecordFound: boolean = false;
 
   constructor(public afAuth: AngularFireAuth,
     private dashboardService: DashboardService,
@@ -25,24 +28,24 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
     this.afAuth.user.subscribe(user => {
       if (user) {
-        let now = new Date();
-        now.setDate(now.getDate() - 1);
-        let yesterdayDate: string = now.toDateString();
         this.getUserHealthyChecklist(user.email, this.todayDate);
-        this.getUserHealthyChecklist(user.email, yesterdayDate);
       } else {
         this.router.navigate(['/login']);
       }
     });
+    let now = new Date();
+    now.setDate(now.getDate() - 1);
+    let yDate = new Date(now);
+    this.yesterdayDate = { year: yDate.getFullYear(), month: yDate.getMonth() + 1, day: yDate.getDate() };
   }
 
   onSubmit() {
     if (this.id) {
-      this.dashboardService.updateHealthyChecklist(this.healthyChecklist, this.id);      
+      this.dashboardService.updateHealthyChecklist(this.todayHealthyChecklist, this.id);      
     } else {
-      this.healthyChecklist.created = this.todayDate;
-      this.healthyChecklist.email = this.afAuth.auth.currentUser.email;
-      this.dashboardService.insertHealthyChecklist(this.healthyChecklist);
+      this.todayHealthyChecklist.created = this.todayDate;
+      this.todayHealthyChecklist.email = this.afAuth.auth.currentUser.email;
+      this.dashboardService.insertHealthyChecklist(this.todayHealthyChecklist);
     }    
   }
 
@@ -50,13 +53,20 @@ export class DashboardComponent implements OnInit {
     this.dashboardService.getUserHealthyChecklist(email, date).subscribe(response => {
       if (response.length > 0) {
         if (date == this.todayDate) {
-          this.healthyChecklist = response[0].data;
+          this.todayHealthyChecklist = response[0].data;
           this.id = response[0].id;
         } else {
-          this.yesterdayHealthyChecklist = response[0].data;
+          this.olderHealthyChecklist = response[0].data;
         }
+      } else if (date != this.todayDate) {
+        this.noRecordFound = true;
       }      
     });
   }
 
+  onDateSelection(date: NgbDateStruct) {
+    this.noRecordFound = false;    
+    let selectedDate = new Date(date.year, date.month - 1, date.day);
+    this.getUserHealthyChecklist(this.afAuth.auth.currentUser.email, selectedDate.toDateString());    
+  }
 }

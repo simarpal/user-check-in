@@ -2,7 +2,7 @@
   <ngb-tab title="Today's Activities">
     <ng-template ngbTabContent>
       <h6>Please Tick Today's Activities</h6>
-      <app-healthy-checklist [healthyChecklist]="healthyChecklist"></app-healthy-checklist>      
+      <app-healthy-checklist [healthyChecklist]="todayHealthyChecklist"></app-healthy-checklist>
       <div class="row">
         <div class="col-lg-5 clearfix">
           <button type="submit" class="btn btn-primary fr cursor-hand" (click)="onSubmit()">{{ id ? 'Update' : 'Submit'}}</button>
@@ -10,10 +10,26 @@
       </div>
     </ng-template>
   </ngb-tab>
-  <ngb-tab title="Yesterday's Activities">
+  <ngb-tab title="Recent Activities">
     <ng-template ngbTabContent>
-      <h6>Yours yesterday's Activities</h6>
-      <app-healthy-checklist [healthyChecklist]="yesterdayHealthyChecklist" [isDisabled]="true"></app-healthy-checklist>      
+      <h6>Please select a date from the date picker</h6>
+      <div class="row">
+        <div class="col-lg-5">
+          <div class="form-group">
+            <div class="input-group">
+              <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="model" (dateSelect)="onDateSelection($event)"
+                [maxDate]="yesterdayDate" ngbDatepicker #d="ngbDatepicker">
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+                  <i class="fa fa-calendar" aria-hidden="true"></i>
+                </button>
+              </div>
+            </div>
+            <div class="error" *ngIf="noRecordFound">you have not submitted your health checklist for this date</div>
+          </div>
+        </div>
+      </div>
+      <app-healthy-checklist *ngIf="!noRecordFound && olderHealthyChecklist" [healthyChecklist]="olderHealthyChecklist" [isDisabled]="true"></app-healthy-checklist>
     </ng-template>
   </ngb-tab>
 </ngb-tabset>

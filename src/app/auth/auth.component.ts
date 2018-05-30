@@ -50,7 +50,7 @@ export class AuthComponent implements OnInit {
     this.authService.registerUser(formValue)
       .then(res => {
         this.errorMessage = "";
-        this.successMessage = "Your account has been created.";
+        this.successMessage = "Your account has been created. Please login";
       }, err => {
         this.errorMessage = err.message;
         this.successMessage = "";
@@ -75,5 +75,7 @@ export class AuthComponent implements OnInit {
 
   toggleLoginMode() {
     this.login = !this.login;
+    this.errorMessage = "";
+    this.successMessage = "";
   }
 }
