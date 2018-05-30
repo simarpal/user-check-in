@@ -1,14 +1,16 @@
+
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Routes, RouterModule } from '@angular/router';
 
-import { CheckInComponent } from './check-in.component';
-import { CheckInService } from './check-in.service';
+import { DashboardService } from './dashboard.service';
+import { DashboardComponent } from './dashboard.component';
+import { HealthyChecklistComponent } from '../healthy-checklist/healthy-checklist.component';
 
 const routes: Routes = [
-  { path: 'check-in', component: CheckInComponent }
+  { path: 'dashboard', component: DashboardComponent }
 ];
 
 @NgModule({
@@ -18,7 +20,7 @@ const routes: Routes = [
     NgbModule,
     RouterModule.forChild(routes)    
   ],
-  declarations: [CheckInComponent],
-  providers: [CheckInService]
+  declarations: [DashboardComponent, HealthyChecklistComponent],
+  providers: [DashboardService]
 })
-export class CheckInModule { }
+export class DashboardModule { }

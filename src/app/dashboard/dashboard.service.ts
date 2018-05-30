@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 import { HealthyChecklist } from './../types/healthyChecklist';
 
 @Injectable()
-export class CheckInService {
+export class DashboardService {
   private healthyChecklistsCollection: AngularFirestoreCollection<HealthyChecklist>;
 
   constructor(private afs: AngularFirestore) {

@@ -1,0 +1,19 @@
+<ngb-tabset *ngIf="afAuth.user | async as user">
+  <ngb-tab title="Today's Activities">
+    <ng-template ngbTabContent>
+      <h6>Please Tick Today's Activities</h6>
+      <app-healthy-checklist [healthyChecklist]="healthyChecklist"></app-healthy-checklist>      
+      <div class="row">
+        <div class="col-lg-5 clearfix">
+          <button type="submit" class="btn btn-primary fr cursor-hand" (click)="onSubmit()">{{ id ? 'Update' : 'Submit'}}</button>
+        </div>
+      </div>
+    </ng-template>
+  </ngb-tab>
+  <ngb-tab title="Yesterday's Activities">
+    <ng-template ngbTabContent>
+      <h6>Yours yesterday's Activities</h6>
+      <app-healthy-checklist [healthyChecklist]="yesterdayHealthyChecklist" [isDisabled]="true"></app-healthy-checklist>      
+    </ng-template>
+  </ngb-tab>
+</ngb-tabset>

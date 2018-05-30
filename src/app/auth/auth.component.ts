@@ -26,7 +26,7 @@ export class AuthComponent implements OnInit {
     this.buildForm();
     this.afAuth.user.subscribe(user => {
       if (user) {
-        this.router.navigate(['/check-in']);
+        this.router.navigate(['/dashboard']);
       }
     });
   }
@@ -60,7 +60,7 @@ export class AuthComponent implements OnInit {
   loginWithEmail(formValue) {
     this.authService.loginWithEmail(formValue)
       .then(res => {
-        this.router.navigate(['/check-in']);
+        this.router.navigate(['/dashboard']);
       }, err => {
         this.errorMessage = err.message;
         this.successMessage = "";
@@ -69,7 +69,7 @@ export class AuthComponent implements OnInit {
 
   loginWithGoogle() {
     this.afAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).then(res => {
-      this.router.navigate(['/check-in']);
+      this.router.navigate(['/dashboard']);
     });
   }
 

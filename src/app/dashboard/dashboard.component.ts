@@ -2,23 +2,23 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { CheckInService } from './check-in.service';
+import { DashboardService } from './dashboard.service';
 import { HealthyChecklist } from './../types/healthyChecklist';
 
 @Component({
-  selector: 'app-check-in',
-  templateUrl: './check-in.component.html',
-  styleUrls: ['./check-in.component.css'],
+  selector: 'app-dashboard',
+  templateUrl: './dashboard.component.html',
+  styleUrls: ['./dashboard.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class CheckInComponent implements OnInit {
+export class DashboardComponent implements OnInit {
   healthyChecklist: HealthyChecklist = new HealthyChecklist();
   yesterdayHealthyChecklist: HealthyChecklist = new HealthyChecklist();
   todayDate: string = new Date().toDateString();
   id: string = '';
 
   constructor(public afAuth: AngularFireAuth,
-    private checkInService: CheckInService,
+    private dashboardService: DashboardService,
     private router: Router) {
   }
 
@@ -38,16 +38,16 @@ export class CheckInComponent implements OnInit {
 
   onSubmit() {
     if (this.id) {
-      this.checkInService.updateHealthyChecklist(this.healthyChecklist, this.id);      
+      this.dashboardService.updateHealthyChecklist(this.healthyChecklist, this.id);      
     } else {
       this.healthyChecklist.created = this.todayDate;
       this.healthyChecklist.email = this.afAuth.auth.currentUser.email;
-      this.checkInService.insertHealthyChecklist(this.healthyChecklist);
+      this.dashboardService.insertHealthyChecklist(this.healthyChecklist);
     }    
   }
 
   getUserHealthyChecklist(email: string, date: string) {
-    this.checkInService.getUserHealthyChecklist(email, date).subscribe(response => {
+    this.dashboardService.getUserHealthyChecklist(email, date).subscribe(response => {
       if (response.length > 0) {
         if (date == this.todayDate) {
           this.healthyChecklist = response[0].data;
