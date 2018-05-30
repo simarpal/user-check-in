@@ -1,4 +1,4 @@
-<ngb-tabset>
+<ngb-tabset *ngIf="afAuth.user | async as user">
   <ngb-tab title="Today's Activities">
     <ng-template ngbTabContent>
       <h6>Please Tick Today's Activities</h6>
@@ -88,7 +88,7 @@
       
       <div class="row">
         <div class="col-lg-5 clearfix">
-          <button type="submit" class="btn btn-primary fr cursor-hand" (click)="onSubmit()">Submit</button>
+          <button type="submit" class="btn btn-primary fr cursor-hand" (click)="onSubmit()">{{ id ? 'Update' : 'Submit'}}</button>
         </div>
       </div>
     </ng-template>
