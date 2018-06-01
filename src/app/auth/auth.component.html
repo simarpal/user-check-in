@@ -21,7 +21,7 @@
       <br>
       <div class="input-group">
         <input type="email" formControlName="email" class="form-control">
-        <button class="button btn-primary cursor-hand" [disabled]="emailSent" (click)="sendEmailLink(email)">Get Login Link</button>
+        <button class="button btn-primary cursor-hand" [ngClass]="{'disable': emailSent}" [disabled]="emailSent" (click)="sendEmailLink(email)">Get Login Link</button>
       </div>
     </div>
     <img class="google-sign-in" *ngIf="login" src="assets/btn_google_signin_dark_normal_web.png" (click)="loginWithGoogle()">

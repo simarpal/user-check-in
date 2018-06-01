@@ -16,3 +16,7 @@
   cursor: pointer;
   margin-top: 10px;
 }
+
+.disable{
+  cursor: no-drop !important;
+}

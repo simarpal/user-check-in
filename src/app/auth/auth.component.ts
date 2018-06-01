@@ -7,7 +7,11 @@ import { Router } from '@angular/router';
 import { AuthService } from './auth.service';
 
 const actionCodeSettings = {
-  url: 'https://user-check-in.firebaseapp.com/login',
+  // production url
+  // url: 'https://user-check-in.firebaseapp.com/login',
+
+  // local url
+  url: 'http://localhost:4200/login',
   handleCodeInApp: true,
 }
 
@@ -21,7 +25,7 @@ export class AuthComponent implements OnInit {
   errorMessage: string = '';
   alertMessage: string = '';
   registerForm: FormGroup;
-  emailSent = false;
+  emailSent: boolean = false;
   
   constructor(private afAuth: AngularFireAuth,
     private authService: AuthService,
@@ -56,11 +60,8 @@ export class AuthComponent implements OnInit {
   }
 
   registerUser(formValue) {
-    this.authService.registerUser(formValue)
-      .then(res => {
-        this.errorMessage = "";
+    this.afAuth.auth.createUserWithEmailAndPassword(formValue.email, formValue.password).then(response => {
         this.router.navigate(['/dashboard']);
-        // this.alertMessage = "Your account has been created. Please login";
       }, err => {
         this.errorMessage = err.message;
         this.alertMessage = "";
@@ -68,8 +69,7 @@ export class AuthComponent implements OnInit {
   }
 
   loginWithEmail(formValue) {
-    this.authService.loginWithEmail(formValue)
-      .then(res => {
+    this.afAuth.auth.signInWithEmailAndPassword(formValue.email, formValue.password).then(response => {
         this.router.navigate(['/dashboard']);
       }, err => {
         this.errorMessage = err.message;
@@ -80,6 +80,9 @@ export class AuthComponent implements OnInit {
   loginWithGoogle() {
     this.afAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).then(res => {
       this.router.navigate(['/dashboard']);
+    }, err => {
+      this.errorMessage = err.message;
+      this.alertMessage = "";
     });
   }
 
@@ -90,10 +93,10 @@ export class AuthComponent implements OnInit {
   }  
 
   async sendEmailLink() {
+    this.emailSent = true;          
     try {
       await this.afAuth.auth.sendSignInLinkToEmail(this.registerForm.value.email, actionCodeSettings);
       window.localStorage.setItem('emailForSignIn', this.registerForm.value.email);
-      this.emailSent = true;
       this.alertMessage = "We have sent you an email with login link.";
     } catch (err) {
       this.errorMessage = err.message;
@@ -109,6 +112,9 @@ export class AuthComponent implements OnInit {
         }
         this.alertMessage = "You will be redirected on successful verification.";
         const result = await this.afAuth.auth.signInWithEmailLink(email, url);
+        if (result) {
+          this.router.navigate(['/dashboard']);          
+        }
         window.localStorage.removeItem('emailForSignIn');
       }
     } catch (err) {
