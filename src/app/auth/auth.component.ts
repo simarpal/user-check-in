@@ -6,6 +6,11 @@ import { Router } from '@angular/router';
 
 import { AuthService } from './auth.service';
 
+const actionCodeSettings = {
+  url: 'https://user-check-in.firebaseapp.com/login',
+  handleCodeInApp: true,
+}
+
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
@@ -14,21 +19,25 @@ import { AuthService } from './auth.service';
 export class AuthComponent implements OnInit {
   login: boolean = true;
   errorMessage: string = '';
+  alertMessage: string = '';
   registerForm: FormGroup;
-  successMessage: string = '';
+  emailSent = false;
   
-  constructor(public afAuth: AngularFireAuth,
+  constructor(private afAuth: AngularFireAuth,
     private authService: AuthService,
     private fb: FormBuilder,
     private router: Router) { }
 
   ngOnInit() {
-    this.buildForm();
-    this.afAuth.user.subscribe(user => {
+    let user$ = this.afAuth.authState.subscribe(user => {
       if (user) {
         this.router.navigate(['/dashboard']);
       }
+      user$.unsubscribe();
     });
+    this.buildForm();    
+    const url = this.router.url;
+    this.confirmSignIn(url);
   }
 
   buildForm() {
@@ -50,10 +59,11 @@ export class AuthComponent implements OnInit {
     this.authService.registerUser(formValue)
       .then(res => {
         this.errorMessage = "";
-        this.successMessage = "Your account has been created. Please login";
+        this.router.navigate(['/dashboard']);
+        // this.alertMessage = "Your account has been created. Please login";
       }, err => {
         this.errorMessage = err.message;
-        this.successMessage = "";
+        this.alertMessage = "";
       })
   }
 
@@ -63,7 +73,7 @@ export class AuthComponent implements OnInit {
         this.router.navigate(['/dashboard']);
       }, err => {
         this.errorMessage = err.message;
-        this.successMessage = "";
+        this.alertMessage = "";
       })
   }
 
@@ -76,6 +86,34 @@ export class AuthComponent implements OnInit {
   toggleLoginMode() {
     this.login = !this.login;
     this.errorMessage = "";
-    this.successMessage = "";
+    this.alertMessage = "";
+  }  
+
+  async sendEmailLink() {
+    try {
+      await this.afAuth.auth.sendSignInLinkToEmail(this.registerForm.value.email, actionCodeSettings);
+      window.localStorage.setItem('emailForSignIn', this.registerForm.value.email);
+      this.emailSent = true;
+      this.alertMessage = "We have sent you an email with login link.";
+    } catch (err) {
+      this.errorMessage = err.message;
+    }
   }
+
+  async confirmSignIn(url) {
+    try {
+      if (this.afAuth.auth.isSignInWithEmailLink(url)) {
+        let email = window.localStorage.getItem('emailForSignIn');
+        if (!email) {
+          email = window.prompt('Please provide your email for confirmation');
+        }
+        this.alertMessage = "You will be redirected on successful verification.";
+        const result = await this.afAuth.auth.signInWithEmailLink(email, url);
+        window.localStorage.removeItem('emailForSignIn');
+      }
+    } catch (err) {
+      this.errorMessage = err.message;
+    }
+  }
+
 }

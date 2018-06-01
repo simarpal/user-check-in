@@ -20,18 +20,19 @@ export class DashboardComponent implements OnInit {
   id: string = '';
   noRecordFound: boolean = false;
 
-  constructor(public afAuth: AngularFireAuth,
+  constructor(private afAuth: AngularFireAuth,
     private dashboardService: DashboardService,
     private router: Router) {
   }
 
   ngOnInit() {
-    this.afAuth.user.subscribe(user => {
+    let user$ = this.afAuth.authState.subscribe(user => {
       if (user) {
         this.getUserHealthyChecklist(user.email, this.todayDate);
       } else {
         this.router.navigate(['/login']);
       }
+      user$.unsubscribe();
     });
     let now = new Date();
     now.setDate(now.getDate() - 1);

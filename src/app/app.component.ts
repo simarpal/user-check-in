@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 })
 export class AppComponent implements OnInit {
 
-  constructor(public afAuth: AngularFireAuth,
+  constructor(private afAuth: AngularFireAuth,
     private router: Router) {
   }
   
@@ -17,7 +17,8 @@ export class AppComponent implements OnInit {
   }
 
   logout() {
-    this.afAuth.auth.signOut();
-    this.router.navigate(['/login']);    
+    this.afAuth.auth.signOut().then(success => {
+      this.router.navigate(['/login']);      
+    });
   }
 }
