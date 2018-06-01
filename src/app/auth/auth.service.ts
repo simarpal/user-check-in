@@ -6,21 +6,11 @@ import { Injectable } from '@angular/core';
 export class AuthService {
 
   registerUser(formValue) {
-    return new Promise<any>((resolve, reject) => {
-      firebase.auth().createUserWithEmailAndPassword(formValue.email, formValue.password)
-        .then(res => {
-          resolve(res);
-        }, err => reject(err))
-    })
+    return firebase.auth().createUserWithEmailAndPassword(formValue.email, formValue.password);
   }
 
   loginWithEmail(formValue) {
-    return new Promise<any>((resolve, reject) => {
-      firebase.auth().signInWithEmailAndPassword(formValue.email, formValue.password)
-        .then(res => {
-          resolve(res);
-        }, err => reject(err))
-    })
+    return firebase.auth().signInWithEmailAndPassword(formValue.email, formValue.password);
   }
 
 }

@@ -20,7 +20,7 @@ export class DashboardComponent implements OnInit {
   id: string = '';
   noRecordFound: boolean = false;
 
-  constructor(private afAuth: AngularFireAuth,
+  constructor(public afAuth: AngularFireAuth,
     private dashboardService: DashboardService,
     private router: Router) {
   }
