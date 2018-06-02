@@ -24,12 +24,9 @@ export class DashboardComponent implements OnInit {
   constructor(public afAuth: AngularFireAuth,
     private dashboardService: DashboardService,
     private router: Router) {
-    this.getUser();
   }
 
-  ngOnInit() {}
-
-  getUser() {
+  ngOnInit() {
     let user$ = this.afAuth.authState.subscribe(user => {
       if (user) {
         this.getUserHealthyChecklist(user.email, this.todayDate);

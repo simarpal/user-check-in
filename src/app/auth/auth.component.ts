@@ -1,6 +1,6 @@
 import { AngularFireAuth } from 'angularfire2/auth';
 import { firebase } from '@firebase/app';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -30,7 +30,8 @@ export class AuthComponent implements OnInit {
   constructor(public afAuth: AngularFireAuth,
     private authService: AuthService,
     private fb: FormBuilder,
-    private router: Router) { }
+    private router: Router,
+    private zone: NgZone) { }
 
   ngOnInit() {
     let user$ = this.afAuth.authState.subscribe(user => {
@@ -87,7 +88,9 @@ export class AuthComponent implements OnInit {
     this.processing = true;
     this.afAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).then(response => {
       this.processing = false;
-      this.router.navigate(['/dashboard']);
+      this.zone.run(() => {
+        this.router.navigate(['dashboard'])
+      });
     }, err => {
       this.processing = false;
       this.errorMessage = err.message;
