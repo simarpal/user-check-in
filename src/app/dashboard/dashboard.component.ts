@@ -19,13 +19,17 @@ export class DashboardComponent implements OnInit {
   yesterdayDate: NgbDateStruct;
   id: string = '';
   noRecordFound: boolean = false;
+  processing: boolean = false;
 
   constructor(public afAuth: AngularFireAuth,
     private dashboardService: DashboardService,
     private router: Router) {
+    this.getUser();
   }
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  getUser() {
     let user$ = this.afAuth.authState.subscribe(user => {
       if (user) {
         this.getUserHealthyChecklist(user.email, this.todayDate);
@@ -41,12 +45,21 @@ export class DashboardComponent implements OnInit {
   }
 
   onSubmit() {
+    this.processing = true;
     if (this.id) {
-      this.dashboardService.updateHealthyChecklist(this.todayHealthyChecklist, this.id);      
+      this.dashboardService.updateHealthyChecklist(this.todayHealthyChecklist, this.id).then(res => {
+        this.processing = false;
+      }, err => {
+        this.processing = false;
+      });
     } else {
       this.todayHealthyChecklist.created = this.todayDate;
       this.todayHealthyChecklist.email = this.afAuth.auth.currentUser.email;
-      this.dashboardService.insertHealthyChecklist(this.todayHealthyChecklist);
+      this.dashboardService.insertHealthyChecklist(this.todayHealthyChecklist).then(res => {
+        this.processing = false;
+      }, err => {
+        this.processing = false;
+      });
     }    
   }
 

@@ -13,7 +13,7 @@
       <input type="password" class="form-control" formControlName="password">
       <label class="error">{{errorMessage}}</label>
     </div>
-    <button type="submit" class="btn btn-primary cursor-hand" (click)="onFormSubmit(registerForm.value)">{{ login ? 'Login' : 'Register' }}</button>
+    <button [disabled]="processing" type="submit" class="btn btn-primary cursor-hand" (click)="onFormSubmit(registerForm.value)">{{ login ? 'Login' : 'Register' }}</button>
     <br>
     <div *ngIf="!login">OR
       <br>
@@ -21,10 +21,10 @@
       <br>
       <div class="input-group">
         <input type="email" formControlName="email" class="form-control">
-        <button class="button btn-primary cursor-hand" [ngClass]="{'disable': emailSent}" [disabled]="emailSent" (click)="sendEmailLink(email)">Get Login Link</button>
+        <button [disabled]="processing" class="button btn-primary cursor-hand" [ngClass]="{'disable': processing}" (click)="sendEmailLink(email)">Get Login Link</button>
       </div>
     </div>
-    <img class="google-sign-in" *ngIf="login" src="assets/btn_google_signin_dark_normal_web.png" (click)="loginWithGoogle()">
+    <img *ngIf="login && !processing" class="google-sign-in" src="assets/btn_google_signin_dark_normal_web.png" (click)="loginWithGoogle()">
   </form>
   <button class="btn btn-link cursor-hand" (click)="toggleLoginMode()">{{ login ? 'Don\'t have an account? Register Instantly' : 'Already have an account? Log In' }}</button>
 </div>

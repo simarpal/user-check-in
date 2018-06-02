@@ -5,7 +5,7 @@
       <app-healthy-checklist [healthyChecklist]="todayHealthyChecklist"></app-healthy-checklist>
       <div class="row">
         <div class="col-lg-5 clearfix">
-          <button type="submit" class="btn btn-primary fr cursor-hand" (click)="onSubmit()">{{ id ? 'Update' : 'Submit'}}</button>
+          <button [disabled]="processing" type="submit" class="btn btn-primary fr cursor-hand" (click)="onSubmit()">{{ id ? 'Update' : 'Submit'}}</button>
         </div>
       </div>
     </ng-template>

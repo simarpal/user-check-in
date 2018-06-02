@@ -8,10 +8,10 @@ import { AuthService } from './auth.service';
 
 const actionCodeSettings = {
   // production url
-  // url: 'https://user-check-in.firebaseapp.com/login',
+  url: 'https://user-check-in.firebaseapp.com/login',
 
   // local url
-  url: 'http://localhost:4200/login',
+  // url: 'http://localhost:4200/login',
   handleCodeInApp: true,
 }
 
@@ -25,9 +25,9 @@ export class AuthComponent implements OnInit {
   errorMessage: string = '';
   alertMessage: string = '';
   registerForm: FormGroup;
-  emailSent: boolean = false;
-  
-  constructor(private afAuth: AngularFireAuth,
+  processing: boolean = false;
+
+  constructor(public afAuth: AngularFireAuth,
     private authService: AuthService,
     private fb: FormBuilder,
     private router: Router) { }
@@ -39,7 +39,7 @@ export class AuthComponent implements OnInit {
       }
       user$.unsubscribe();
     });
-    this.buildForm();    
+    this.buildForm();
     const url = this.router.url;
     this.confirmSignIn(url);
   }
@@ -60,27 +60,36 @@ export class AuthComponent implements OnInit {
   }
 
   registerUser(formValue) {
+    this.processing = true;
     this.afAuth.auth.createUserWithEmailAndPassword(formValue.email, formValue.password).then(response => {
-        this.router.navigate(['/dashboard']);
-      }, err => {
-        this.errorMessage = err.message;
-        this.alertMessage = "";
-      })
+      this.processing = false;
+      this.router.navigate(['/dashboard']);
+    }, err => {
+      this.processing = false;
+      this.errorMessage = err.message;
+      this.alertMessage = "";
+    })
   }
 
   loginWithEmail(formValue) {
+    this.processing = true;    
     this.afAuth.auth.signInWithEmailAndPassword(formValue.email, formValue.password).then(response => {
-        this.router.navigate(['/dashboard']);
-      }, err => {
-        this.errorMessage = err.message;
-        this.alertMessage = "";
-      })
+      this.processing = false;
+      this.router.navigate(['/dashboard']);
+    }, err => {
+      this.processing = false;
+      this.errorMessage = err.message;
+      this.alertMessage = "";
+    })
   }
 
   loginWithGoogle() {
-    this.afAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).then(res => {
+    this.processing = true;
+    this.afAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).then(response => {
+      this.processing = false;
       this.router.navigate(['/dashboard']);
     }, err => {
+      this.processing = false;
       this.errorMessage = err.message;
       this.alertMessage = "";
     });
@@ -90,10 +99,11 @@ export class AuthComponent implements OnInit {
     this.login = !this.login;
     this.errorMessage = "";
     this.alertMessage = "";
-  }  
+    this.processing = false;
+  }
 
   async sendEmailLink() {
-    this.emailSent = true;          
+    this.processing = true;
     try {
       await this.afAuth.auth.sendSignInLinkToEmail(this.registerForm.value.email, actionCodeSettings);
       window.localStorage.setItem('emailForSignIn', this.registerForm.value.email);
@@ -104,6 +114,7 @@ export class AuthComponent implements OnInit {
   }
 
   async confirmSignIn(url) {
+    this.processing = true;
     try {
       if (this.afAuth.auth.isSignInWithEmailLink(url)) {
         let email = window.localStorage.getItem('emailForSignIn');
@@ -113,9 +124,11 @@ export class AuthComponent implements OnInit {
         this.alertMessage = "You will be redirected on successful verification.";
         const result = await this.afAuth.auth.signInWithEmailLink(email, url);
         if (result) {
-          this.router.navigate(['/dashboard']);          
+          this.router.navigate(['/dashboard']);
         }
         window.localStorage.removeItem('emailForSignIn');
+      } else {
+        this.processing = false;        
       }
     } catch (err) {
       this.errorMessage = err.message;
